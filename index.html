@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/sweetaleart/v2/sweetalert2.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Customer infomation</h1>
+
+        <div class="row mb-3">
+            <div class="col-lg-6">
+                <button type="button" id="btnShowCreateForm" class="btn btn-outline-primary">
+                    Create A New Customer
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <table class="table table-hover" id="tbCustomer">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Balance</th>
+                        <th class="text-center" colspan="5">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="mdCreate" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmCreate">
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="fullNameCre">Full Name</label>
+                                <input type="text" name="fullNameCre" id="fullNameCre" class="form-control">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="emailCre">Email</label>
+                                <input type="text" name="emailCre" id="emailCre" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="phoneCre">Phone</label>
+                                <input type="text" name="phoneCre" id="phoneCre" class="form-control">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="addressCre">Address</label>
+                                <input type="text" name="addressCre" id="addressCre" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="btnCreate" class="btn btn-outline-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mdEdit" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmEdit">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="fullNameUp" class="form-label required">Full Name</label>
+                                    <input type="text" name="fullNameUp" id="fullNameUp" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phoneUp" class="form-label required">Phone</label>
+                                    <input type="text" name="phoneUp" id="phoneUp" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="emailUp" class="form-label required">Email</label>
+                                    <input type="text" name="emailUp" id="emailUp" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="addressUp" class="form-label required">Address</label>
+                                    <input type="text" name="addressUp" id="addressUp" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="btnEdit" class="btn btn-outline-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mdDeposit" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Deposit money into customer's account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmDeposit">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="customerIdDep" class="form-label required">Customer ID</label>
+                                    <input type="text" id="customerIdDep" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="balanceDep" class="form-label required">Current balance ($)</label>
+                                    <input type="text" id="balanceDep" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="fullNameDep" class="form-label required">Full Name</label>
+                                    <input type="text" id="fullNameDep" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="transactionAmountDep" class="form-label required">Transaction Amount
+                                        ($)</label>
+                                    <input type="text" name="transactionAmountDep" id="transactionAmountDep" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDeposit" class="btn btn-outline-success">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mdWithdraw" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Withdraw money into customer's account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmWithdraw">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="customerIdWith" class="form-label required">Customer ID</label>
+                                    <input type="text" name="customerIdWith" id="customerIdWith" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="balanceDep" class="form-label required">Current balance ($)</label>
+                                    <input type="text" name="balanceWith" id="balanceWith" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="fullNameWith" class="form-label required">Full Name</label>
+                                    <input type="text" name="fullNameWith" id="fullNameWith" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="transactionAmountWith" class="form-label required">Transaction Amount
+                                        ($)</label>
+                                    <input type="text" name="transactionAmountWith" id="transactionAmountWith" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="btnWithdraw" class="btn btn-outline-warning">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mdTransfer" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transfer money in between two customer's account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmTransfer">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="mb-3">
+                                    <label for="senderIdTrans" class="form-label required">Sender ID</label>
+                                    <input type="text" name="senderIdTrans" id="senderIdTrans" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipientNameTrans" class="form-label required">Recipient Name</label>
+                                    <select id="recipientNameTrans" name="recipientNameTrans" class="form-select valid" name="recipientNameTrans"
+                                        aria-invalid="false">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="mb-3">
+                                    <label for="senderNameTrans" class="form-label required">Sender Name</label>
+                                    <input type="text" name="senderNameTrans" id="senderNameTrans" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="transferAmountTrans" class="form-label required">Transfer Amount
+                                        ($))</label>
+                                    <input type="text" name="transferAmountTrans" id="transferAmountTrans" class="form-control"
+                                        oninput="onChangeTransactionAmount()">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="mb-3">
+                                    <label for="emailTrans" class="form-label required">Email</label>
+                                    <input type="text" name="emailTrans" id="emailTrans" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="feesTrans" class="form-label required">Fees (%)</label>
+                                    <input type="text" name="feesTrans" id="feesTrans" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="mb-3">
+                                    <label for="senderBalanceTrans" class="form-label required">Sender balance</label>
+                                    <input type="text" name="senderBalanceTrans" id="senderBalanceTrans" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="transactionAmountTrans" class="form-label required">Total amount of
+                                        transaction ($)</label>
+                                    <input type="text" name="transactionAmountTrans" id="transactionAmountTrans" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="btnTransfer" class="btn btn-outline-primary">Transfer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/jquery-v316.js"></script>
+    <script src="/assets/js/query.validate.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/sweetaleart/v2/sweetalert2.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+
+    <script>
+        let customers = [];
+        let deposits = [];
+        let withdraws = [];
+        let transfers = [];
+        let customer = new Customer();
+        let sender = new Customer();
+        let receipent = new Customer();
+        let deposit = new Deposit();
+        let withdraw = new Withdraw();
+        let transfer = new Transfer();
+
+        function loadCustomers() {
+            $.ajax({
+                    "type": "GET",
+                    "url": "http://localhost:3000/customers?deleted=0"
+                })
+                .done((data) => {
+                    $.each(data, (i, item) => {
+
+                        let str = `
+                    <tr id="tr_${item.id}">
+                        <td>${item.id}</td>
+                        <td>${item.fullName}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone}</td>
+                        <td>${item.address}</td>
+                        <td>${item.balance}</td>
+                        <td>
+                            <button class="btn btn-outline-dark edit" data-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success deposit" data-id="${item.id}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${item.id}"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${item.id}"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+
+                        $('#tbCustomer tbody').append(str);
+
+                    })
+                    unbindAll()
+                    handleGroupShowModal();
+                })
+        }
+
+        function getCustomerById(id ) {
+            return $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: "http://localhost:3000/customers/" + id
+                })
+                .done((data) => {
+                    customer = data;
+                })
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Id invalid')
+                })
+
+        }
+
+        function getAllCustomers() {
+            return $.ajax({
+                    type: "GET",
+                    url: "http://localhost:3000/customers?deleted=0"
+                })
+                .done((data) => {
+                    customers = data;
+                })
+        }
+
+        loadCustomers();
+
+        function handleGroupShowModal() {
+            handleShowCreateModal();
+            handleShowUpdateModal();
+            handleConfirmDelete();
+            handleShowDepositModal();
+            handleShowWithdrawModal();
+            handleShowTransferModal();
+        }
+
+        $('#btnCreate').on('click', function () {
+            $('#frmCreate').submit();
+        });
+
+        $('#btnEdit').on('click', function () {
+            $('#frmEdit').submit();
+        })
+
+        $('#btnDeposit').on('click', function () {
+            $('#frmDeposit').submit();
+        })
+
+        $('#btnWithdraw').on('click', function () {
+            $('#frmWithdraw').submit();
+        })
+
+        $('#btnTransfer').on('click', function(){
+            $('#frmTransfer').submit();
+        })
+
+        function handleShowCreateModal() {
+            $('#btnShowCreateForm').on('click', function () {
+                $('#mdCreate').modal('show');
+            })
+        }
+
+        function handleShowUpdateModal() {
+            $('.edit').on('click', function () {
+                let id = $(this).data('id');
+
+                getCustomerById(id).then(function () {
+                    $('#fullNameUp').val(customer.fullName);
+                    $('#emailUp').val(customer.email);
+                    $('#phoneUp').val(customer.phone);
+                    $('#addressUp').val(customer.address);
+
+                    $('#mdEdit').modal('show');
+                })
+            })
+        }
+
+        function handleConfirmDelete() {
+            $('.delete').on('click', function () {
+
+                let id = $(this).data('id');
+
+                App.SweetAleart.showAleartConfirmDelete()
+                    .then((result) => {
+                        if (result.isConfirmed) {
+
+                            getCustomerById(id).then(function () {
+                                doDelete(id);
+                            })
+                        }
+                    })
+            })
+        }
+
+        function handleShowDepositModal() {
+            $('.deposit').on('click', function () {
+                let customerId = $(this).data('id');
+
+                getCustomerById(customerId).then(function () {
+                    $('#customerIdDep').val(customer.id);
+                    $('#fullNameDep').val(customer.fullName);
+                    $('#balanceDep').val(customer.balance);
+
+                    $('#mdDeposit').modal('show');
+                })
+            })
+        }
+
+        function handleShowWithdrawModal() {
+            $('.withdraw').on('click', function () {
+                let customerId = $(this).data('id');
+
+                getCustomerById(customerId).then(function () {
+                    $('#customerIdWith').val(customer.id);
+                    $('#fullNameWith').val(customer.fullName);
+                    $('#balanceWith').val(customer.balance);
+
+                    $('#mdWithdraw').modal('show');
+                })
+            })
+        }
+
+        function drawRecipients(recipients) {
+            $('#recipientNameTrans').html('');
+
+            $.each(recipients, (i, item) => {
+                let str = "";
+                if(item.id != customer.id){
+                    str = `
+                        <option value="${item.id}">
+                            (${item.id}) ${item.fullName}
+                        </option>
+                    `
+                }
+                $('#recipientNameTrans').append(str);
+            })            
+        }
+
+        function handleShowTransferModal() {
+            $('.transfer').on('click', function () {
+                let customerId = $(this).data('id');
+
+                getCustomerById(customerId).then(function () {
+                    $('#senderIdTrans').val(customer.id);
+                    $('#senderNameTrans').val(customer.fullName);
+                    $('#emailTrans').val(customer.email);
+                    $('#senderBalanceTrans').val(customer.balance);
+                    $('#feesTrans').val(10);
+                    $('#recipientNameTrans').empty;
+
+                    getAllCustomers().then(() => {
+                        drawRecipients(customers);
+                        $('#mdTransfer').modal('show');
+                    });
+                })
+
+            })
+        }
+
+        function doCreate() {
+            let fullName = $('#fullNameCre').val();
+            let email = $('#emailCre').val();
+            let phone = $('#phoneCre').val();
+            let address = $('#addressCre').val();
+
+            delete customer.id;
+            customer.fullName = fullName;
+            customer.email = email;
+            customer.phone = phone;
+            customer.address = address;
+            customer.balance = 0;
+
+            $.ajax({
+                    "type": "POST",
+                    "url": "http://localhost:3000/customers",
+                    "data": customer
+                })
+                .done((item) => {
+                    let str = `
+                    <tr id="tr_${item.id}">
+                        <td>${item.id}</td>
+                        <td>${item.fullName}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone}</td>
+                        <td>${item.address}</td>
+                        <td>${item.balance}</td>
+                        <td>
+                            <button class="btn btn-outline-dark edit" data-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success deposit" data-id="${item.id}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${item.id}"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${item.id}"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+                    $('#tbCustomer tbody').append(str);
+
+                    $('#mdCreate').modal('hide');
+
+                    App.SweetAleart.showAleartSuccess('Created successful')
+
+                    unbindAll();
+                    handleGroupShowModal();
+                })
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Created fail')
+
+                })
+        }
+
+        function doDelete(customerId) {
+            customer.deleted = 1;
+
+            $.ajax({
+                    "type": "PUT",
+                    "url": "http://localhost:3000/customers/" + customerId,
+                    "data": customer
+                })
+                .done((data) => {
+
+                    $('#tr_' + data.id).remove();
+
+                    unbindAll();
+                    handleGroupShowModal();
+
+                    App.SweetAleart.showAleartSuccess('Deleted customer infomation successful')
+                })
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Deleted customer infomation failed')
+                })
+        }
+
+        function doUpdate() {
+            let fullName = $('#fullNameUp').val();
+            let email = $('#emailUp').val();
+            let phone = $('#phoneUp').val();
+            let address = $('#addressUp').val();
+
+            customer.fullName = fullName;
+            customer.email = email;
+            customer.phone = phone;
+            customer.address = address;
+
+            $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:3000/customers/" + customer.id,
+                    data: customer
+                })
+                .done((item) => {
+                    let str = `
+                    <tr id="tr_${item.id}">
+                        <td>${item.id}</td>
+                        <td>${item.fullName}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone}</td>
+                        <td>${item.address}</td>
+                        <td>${item.balance}</td>
+                        <td>
+                            <button class="btn btn-outline-dark edit" data-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success deposit" data-id="${item.id}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${item.id}"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${item.id}"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+
+                    let currentRow = $('#tr_' + item.id);
+
+                    currentRow.replaceWith(str);
+
+                    $('#mdEdit').modal('hide');
+
+                    App.SweetAleart.showAleartSuccess('Updated customer infomation successful')
+
+                    unbindAll();
+                    handleGroupShowModal();
+                })
+
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Updated customer infomation failed')
+
+                })
+        }
+
+        function doDeposit() {
+            let customerId = $('#customerIdDep').val();
+            
+            getCustomerById(customerId).then(() => {
+                let transactionAmount = $('#transactionAmountDep').val();
+                let createdAt = getDateTime();
+                let updatedAt = getDateTime();
+                
+                delete deposit.id;
+                deposit.customerId = customerId;
+                deposit.transactionAmount = transactionAmount;
+                deposit.createdAt = createdAt;
+                deposit.updatedAt = updatedAt;
+                
+                $.ajax({
+                    "type": "POST",
+                    "url": "http://localhost:3000/deposits",
+                    "data": deposit
+            })
+            .done((item) => {
+                doIncrementBalance(customer, item.transactionAmount);
+            })
+            .fail((error) => {
+                App.SweetAleart.showAleartError("Deposit failed");
+            })
+            });
+        }
+
+        function doWithdraw() {
+            let customerId = $('#customerIdWith').val();
+
+            getCustomerById(customerId).then(() => {
+                let transactionAmount = +$('#transactionAmountWith').val();
+                let createdAt = getDateTime();
+                let updatedAt = getDateTime();
+    
+                delete deposit.id;
+                withdraw.customerId = customerId;
+                withdraw.transactionAmount = transactionAmount;
+                withdraw.createdAt = createdAt;
+                withdraw.updatedAt = updatedAt;
+    
+                if (transactionAmount <= customer.balance) {
+                    $.ajax({
+                    "type": "POST",
+                    "url": "http://localhost:3000/withdraws",
+                    "data": withdraw
+                    })
+                    .done((item) => {
+                        doReduceBalance(customer, item.transactionAmount);
+                    })
+                    .fail((error) => {
+                        App.SweetAleart.showAleartError("Withdraw failed");
+                    })
+                } else {
+                    App.SweetAleart.showAleartError("Balance not enough")
+                }
+            })
+
+            
+        }
+
+        function doIncrementBalance(obj, transactionAmount) {
+            obj.balance = Number(obj.balance) + Number(transactionAmount);
+
+            $.ajax({
+                    "type": "PUT",
+                    "url": "http://localhost:3000/customers/" + obj.id,
+                    "data": obj
+                })
+                .done((item) => {
+                    let str = `
+                    <tr id="tr_${item.id}">
+                        <td>${item.id}</td>
+                        <td>${item.fullName}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone}</td>
+                        <td>${item.address}</td>
+                        <td>${item.balance}</td>
+                        <td>
+                            <button class="btn btn-outline-dark edit" data-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success deposit" data-id="${item.id}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${item.id}"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${item.id}"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+
+                    let currentRow = $('#tr_' + item.id);
+
+                    currentRow.replaceWith(str);
+
+                    unbindAll();
+                    handleGroupShowModal();
+
+                    $('#mdDeposit').modal('hide');
+                    App.SweetAleart.showAleartSuccess('Successful')
+                })
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Customer invalid')
+                })
+        }
+
+        function doReduceBalance(obj, transactionAmount) {
+            obj.balance = Number(obj.balance) - Number(transactionAmount);
+
+            $.ajax({
+                    "type": "PUT",
+                    "url": "http://localhost:3000/customers/" + obj.id,
+                    "data": obj
+                })
+                .done((item) => {
+                    let str = `
+                    <tr id="tr_${item.id}">
+                        <td>${item.id}</td>
+                        <td>${item.fullName}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phone}</td>
+                        <td>${item.address}</td>
+                        <td>${item.balance}</td>
+                        <td>
+                            <button class="btn btn-outline-dark edit" data-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success deposit" data-id="${item.id}"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${item.id}"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${item.id}"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+
+                    let currentRow = $('#tr_' + item.id);
+
+                    currentRow.replaceWith(str);
+
+                    unbindAll();
+                    handleGroupShowModal();
+
+                    $('#mdWithdraw').modal('hide');
+                    App.SweetAleart.showAleartSuccess('Successful')
+                })
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Customer invalid')
+                })
+        }
+
+        function doTransfer() {
+            let recipientId = $('#recipientNameTrans').val();
+            let senderId = $('#senderIdTrans').val();
+
+            if(recipientId != senderId) {
+                getCustomerById(recipientId).then(function(){
+                    receipent = customer;
+    
+                    getCustomerById(senderId).then(function(){
+                        sender = customer;
+    
+                        let transferAmount = $('#transferAmountTrans').val();
+                        let fees = +$('#feesTrans').val()/100;
+                        let feesAmount = transferAmount * fees;
+                        let transactionAmount = Number(transferAmount) + Number(feesAmount);
+    
+                        if (sender.balance >= transactionAmount){
+                            delete transfer.id;
+                            transfer.transferAmount = transferAmount;
+                            transfer.senderId = senderId;
+                            transfer.recipientId = recipientId;
+        
+                            $.ajax({
+                                "type": "POST",
+                                "url": "http://localhost:3000/transfers",
+                                "data": transfer
+                            })
+                            .done((item) => {
+                                let transactionAmount = Number(item.transferAmount) + (Number(item.transferAmount) * Number(10/100));
+
+                                doIncrementBalance(receipent, item.transferAmount);
+                                doReduceBalance(sender, transactionAmount);
+
+                                $('#mdTransfer').modal('hide');
+                            })
+                            .fail((error) => {
+                                App.SweetAleart.showAleartError("Transfer failed");
+                        })
+                        }else {
+                            App.SweetAleart.showAleartError("Sender's balance not enough");
+                        }
+                    })
+                })
+            } else {
+                App.SweetAleart.showAleartError("Sender ID and Receipent ID should different");
+            }
+            
+            // $.ajax({
+            //         "type": "POST",
+            //         "url": "http://localhost:3000/transfers",
+            //         "data": transfer
+            //     })
+            //     .done((item) => {
+            //         let transactionAmount = Number(item.transferAmount) + (Number(item.transferAmount) * Number(10/100));
+
+            //         doIncrementBalance(receipent, item.transferAmount);
+            //         doReduceBalance(sender, transactionAmount);
+
+            //         $('#mdTransfer').modal('hide');
+            //     })
+            //     .fail((error) => {
+            //         App.SweetAleart.showAleartError("Transfer failed");
+            // })
+        }
+
+        function unbindAll() {
+            $('.edit').off;
+            $('.delete').off;
+            $('.deposit').off;
+            $('.withdraw').off;
+            $('.transfer').off;
+
+        }
+
+        function getDateTime() {
+            let today = new Date();
+            let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            return date;
+        }
+
+        function onChangeTransactionAmount() {
+            let transactionAmount = document.getElementById("transferAmountTrans").value;
+            let fees = 0;
+            let feesAmount = 0;
+            let totalAmountOfTransaction = 0;
+
+            fees = document.getElementById("feesTrans").value;
+            feesAmount = (transactionAmount * fees) / 100;
+            totalAmountOfTransaction = Number(transactionAmount) + Number(feesAmount);
+            document.getElementById("transactionAmountTrans").value = totalAmountOfTransaction;
+        }
+    
+        $('#frmCreate').validate({
+            rules: {
+                fullNameCre: {
+                    required: true,
+                    isFullNameRegex: true,
+                    minlength: 3,
+                    maxlength: 50
+                },
+                emailCre: {
+                    required: true,
+                    isEmailRegex: true,
+                    minlength: 10,
+                    maxlength: 50
+                },
+                phoneCre: {
+                    required: true,
+                    isPhoneRegex: true,
+                    minlength: 5,
+                    maxlength: 50
+                },
+                addressCre: {
+                    required: true,
+                }
+            },
+            messages: {
+                fullNameCre: {
+                    required: "Full Name Amount should be not empty ",
+                    minlength: "Length of full name should more 3 words",
+                    maxlength: "Length of full name less more 50 words"
+                },
+                emailCre: {
+                    required: "Email Amount should be not empty ",
+                    minlength: "Length of full name should more 10 words",
+                    maxlength: "Length of full name less more 50 words"
+                },
+                phoneCre: {
+                    required: "Phone Amount should be not empty ",
+                    minlength: "Length of full name should more 5 words",
+                    maxlength: "Length of full name less more 50 words"
+                },
+                addressCre: {
+                    required: "Address Amount should be not empty ",
+                }
+            },
+            errorLabelContainer: "#mdCreate .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#mdCreate .modal-alert-danger");
+            },
+            showErrors: function(errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#mdCreate .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#mdCreate .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmCreate input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function(){
+                doCreate();
+            }
+        })
+        
+        $('#frmEdit').validate({
+            rules: {
+                fullNameUp: {
+                    required: true,
+                    isFullNameRegex: true,
+                    minlength: 3,
+                    maxlength: 50
+                },
+                emailUp: {
+                    required: true,
+                    isEmailRegex: true,
+                    minlength: 10,
+                    maxlength: 50
+                },
+                phoneUp: {
+                    required: true,
+                    isPhoneRegex: true,
+                    minlength: 5,
+                    maxlength: 50
+                },
+                addressUp: {
+                    required: true,
+                }
+            },
+            messages: {
+                fullNameUp: {
+                    required: "Full Name should be not empty ",
+                    minlength: "Length of full name should more 3 words",
+                    maxlength: "Length of full name less more 50 words"
+                },
+                emailUp: {
+                    required: "Email should be not empty ",
+                    minlength: "Length of full name should more 10 words",
+                    maxlength: "Length of full name less more 50 words"
+                },
+                phoneUp: {
+                    required: "Phone should be not empty ",
+                    minlength: "Length of full name should more 5 words",
+                    maxlength: "Length of full name less more 50 words"
+                },
+                addressUp: {
+                    required: "Address should be not empty ",
+                }
+            },
+            errorLabelContainer: "#mdEdit .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#mdEdit .modal-alert-danger");
+            },
+            showErrors: function(errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#mdEdit .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#mdEdit .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmEdit input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function(){
+                doUpdate();
+            }
+        })
+
+        $('#frmDeposit').validate({
+            rules: {
+                transactionAmountDep: {
+                    required: true,
+                    number: true,
+                    min: 50,
+                    max: 100000
+                }
+                
+            },
+            messages: {
+                transactionAmountDep: {
+                    required: "Transaction Amount should be not empty ",
+                    number: "Please input data with number format",
+                    min: "More than {0} $",
+                    max: "Less than {0} $",
+                }
+            },
+            errorLabelContainer: "#mdDeposit .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#mdDeposit .modal-alert-danger");
+            },
+            showErrors: function(errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#mdDeposit .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#mdDeposit .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmDeposit input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function(){
+                doDeposit();
+            }
+        })
+        
+        $('#frmWithdraw').validate({
+            rules: {
+                transactionAmountWith: {
+                    required: true,
+                    number: true,
+                    min: 50,
+                    max: 100000
+                }
+                
+            },
+            messages: {
+                transactionAmountWith: {
+                    required: "Transaction Amount should be not empty ",
+                    number: "Please input data with number format",
+                    min: "More than {0} $",
+                    max: "Less than {0} $",
+                }
+            },
+            errorLabelContainer: "#mdWithdraw .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#mdWithdraw .modal-alert-danger");
+            },
+            showErrors: function(errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#mdWithdraw .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#mdWithdraw .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmWithdraw input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function(){
+                doWithdraw();
+            }
+        })
+
+        $('#frmTransfer').validate({
+            rules: {
+                transferAmountTrans: {
+                    required: true,
+                    number: true,
+                    min: 50,
+                    max: 100000
+                }
+                
+            },
+            messages: {
+                transferAmountTrans: {
+                    required: "Transaction Amount should be not empty ",
+                    number: "Please input data with number format",
+                    min: "More than {0} $",
+                    max: "Less than {0} $",
+                }
+            },
+            errorLabelContainer: "#mdTransfer .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#mdTransfer .modal-alert-danger");
+            },
+            showErrors: function(errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#mdTransfer .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#mdTransfer .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmTransfer input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function(){
+                doTransfer();
+            }
+        })
+        
+        $.validator.addMethod("isFullNameRegex", function (value, element) {
+            return this.optional(element) || /^([A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" + "ẸẺẼỀỀỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪ" + "ỬỮỰỲỴÝỶỸ]{1}[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" + "ẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" + "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]{1,}){2,}$/i.test(value);
+        }, "Full name needs to capitalize the first letter. And must contains two or more words. Ex: 'Mai Thịnh'");
+
+        $.validator.addMethod("isPhoneRegex", function (value, element) {
+            return this.optional(element) || /^([+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*){10}$/i.test(value);
+        }, "Mobile in the form: '0787264104' or '+(84)787264104'");
+
+        $.validator.addMethod("isEmailRegex", function (value, element) {
+            return this.optional(element) || /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/i.test(value);
+        }, "Enter email in the form: phthinh_2609@gmail.com (Only used before @ special character: ._%+-)");
+    </script>
+
+</body>
+
+</html>

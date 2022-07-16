@@ -1,0 +1,126 @@
+.table-title{
+    background: #299be4;
+    color: #fff;
+    padding: 16px 30px;
+    border-radius: 3px 3px 0 0;
+}
+
+header {
+    background: #299be4;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 3px 3px 0 0;
+}
+
+header .btn {
+    float: right;
+    min-width: 50px;
+    outline: none !important;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+thead {
+    background: #4caf50;
+    color: white;
+    text-align: center;
+}
+
+table td span.selected {
+    border-left-color: #5cb85c;
+}
+
+table td span.unselected {
+    border-left-color: #dfdfdf;
+}
+
+table td span.select-tab {
+    border-left-width: 7px;
+    border-left-style: solid;
+    min-width: 0;
+    display: block;
+    height: 24px;
+    margin: 0 0 0 -4px;
+    padding: 0;
+}
+
+table td span.select-tab {
+    border-left-width: 7px;
+    border-left-style: solid;
+    min-width: 0;
+    display: block;
+    height: 24px;
+    margin: 0 0 0 -4px;
+    padding: 0;
+}
+
+.col-form-label {
+    font-weight: bold;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 50px;
+    padding-top: 6px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background: #7abde8;
+    color: #ffffff;
+}
+
+/* .footer {
+    position: fixed;
+    bottom: 0;
+
+    width: 100%;
+}
+
+.footer .success {
+    background-color: #d1e7dd;
+    color: #035e03;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+}
+
+.footer .error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+}
+
+.footer ul {
+    margin-top: 15px;
+} */
+
+.modal-alert-danger {
+    padding: 10px 35px;
+    margin-bottom: 15px;
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.modal-alert-danger ul {
+    margin-bottom: 0;
+}
+
+.show {
+    display: block !important;
+}
+
+.hide  {
+    display: none;
+}
+
+label.error {
+    display: list-item;
+    margin-top: 5px;
+    color: #842029;
+}
