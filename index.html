@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- <link rel="stylesheet" href="/assets/font-awsome/font-awesome-v.4.7.0.min.css"> -->
     <link rel="stylesheet" href="/assets/sweetaleart/v2/sweetalert2.min.css">
+    <link rel="stylesheet" href="/assets/iziToast/iziToast-1.4.0.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
 
 </head>
@@ -434,6 +435,7 @@
 
     <script src="/assets/js/jquery-v316.js"></script> 
     <script src="/assets/sweetaleart/v2/sweetalert2.min.js"></script>
+    <script src="/assets/iziToast/iziToast-1.4.0.js"></script>
     <script src="/assets/js/query.validate.min.js"></script>
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/popper-v1.16.0.min.js"></script>
@@ -541,6 +543,8 @@
 
         function handleShowCreateModal(){
             $('.create-modal').on('click', () => {
+
+                let flag = false;
                 
                 getAllProvince().then(() => {
                     drawProvinces(provinces, '#province');
@@ -584,7 +588,6 @@
             $('.edit').on('click', function () {
 
                 getCustomerById(rowId).then(function () {
-
                     $('#fullNameUp').val(customer.fullName);
                     $('#emailUp').val(customer.email);
                     $('#phoneUp').val(customer.phone);
@@ -692,25 +695,25 @@
         }
 
         function changeLocationOfCreateForm() {
+            let flag = false;
+
             $('#province').on('change', () => {
                 province_id = $('#province').val();
 
                 getDistrictsByProvinceId(province_id).then(() => {
-
                     drawDistricts(districts, '#district');
+                })
 
-                    getWardsByDistrictId(districts[0].district_id).then(() => {
+                getWardsByDistrictId(districts[0].district_id).then(() => {
+                    drawWards(wards, '#ward');
+                })  
+            })
 
-                        drawWards(wards, '#ward');
-                    })  
+            $('#district').on('change', () => {
+                district_id = $('#district').val();
 
-                    $('#district').on('change', () => {
-                        district_id = $('#district').val();
-
-                        getWardsByDistrictId(district_id).then(() => {
-                            drawWards(wards, '#ward');
-                        })                  
-                    })
+                getWardsByDistrictId(district_id).then(() => {
+                    drawWards(wards, '#ward');
                 })
             })
         }
@@ -720,22 +723,20 @@
                 province_id = $('#provinceUp').val();
 
                 getDistrictsByProvinceId(province_id).then(() => {
-
                     drawDistricts(districts, '#districtUp');
-
-                    getWardsByDistrictId(districts[0].district_id).then(() => {
-
-                        drawWards(wards, '#wardUp');
-                    })  
-
-                    $('#districtUp').on('change', () => {
-                        district_id = $('#districtUp').val();
-
-                        getWardsByDistrictId(district_id).then(() => {
-                            drawWards(wards, '#wardUp');
-                        })                  
-                    })
                 })
+
+                getWardsByDistrictId(districts[0].district_id).then(() => {
+                    drawWards(wards, '#wardUp');
+                })
+            })
+
+            $('#districtUp').on('change', () => {
+                district_id = $('#districtUp').val();
+
+                getWardsByDistrictId(district_id).then(() => {
+                    drawWards(wards, '#wardUp');
+                })                  
             })
         }
 
@@ -748,71 +749,114 @@
         }
 
         function doCreate() {
-            let fullName = $('#fullName').val();
-            let email = $('#email').val();
-            let phone = $('#phone').val();
-
-            let address = $('#address').val();
+            let count = 0;
+            let flag = false;
             let provinceId = $('#province').val();
-            let provinceName = $('#province :selected').text();
             let districtId = $('#district').val();
-            let districtName = $('#district :selected').text();
             let wardId = $('#ward').val();
-            let wardName = $('#ward :selected').text(); 
 
-            locationRegion.address = address;
-            locationRegion.provinceId = provinceId;
-            locationRegion.provinceName = provinceName;
-            locationRegion.districtId = districtId;
-            locationRegion.districtName = districtName;
-            locationRegion.wardId = wardId;
-            locationRegion.wardName = wardName;            
-
-            delete customer.id;
-            customer.fullName = fullName;
-            customer.email = email;
-            customer.phone = phone;
-            customer.locationRegion = locationRegion;
-            customer.balance = 0;
-
-            $.ajax({
-                headers: {
-                    accepts: "application/json",
-                    "content-type": "application/json"
-                },
-                
-                type: "POST",
-                url: "http://localhost:3000/customers" ,
-                data: JSON.stringify(customer)
-
+            $.each(provinces, (i, item) => {
+                if(provinceId == item.province_id){
+                    flag = true;
+                }
             })
-            .done((item) => {
-                let str = `
-                    <tr id="tr_${item.id}" data-id="${item.id}">
-                        <td><span class="select-tab unselected"></span></td>
-                        <td class="text-center">${item.id}</td>
-                        <td>${item.fullName}</td>
-                        <td>${item.email}</td>
-                        <td class="text-center">${item.phone}</td>
-                        <td class="text-end num-space">${item.balance}</td>
-                        <td class="text-center">${item.locationRegion.provinceName}</td>
-                        <td class="text-center">${item.locationRegion.districtName}</td>
-                        <td class="text-center">${item.locationRegion.wardName}</td>
-                        <td class="text-center">${item.locationRegion.address}</td>
-                    </tr>
-                `;
-                $('#tbCustomer tbody').append(str);
 
-                $('#mdCreate').modal('hide');
+            if(flag == false){
+                App.IziToast.showAleartError('Province ID not found');
+                count++; 
+            }
+            flag = false;
 
-                App.SweetAleart.showAleartSuccess('Created successful')
-
-                unbindAll();
-                handleClickRow();
+            $.each(districts, (i, item) => {
+                if(districtId == item.district_id){
+                    flag = true;
+                }
             })
-            .fail((error) => {
-                App.SweetAleart.showAleartError('Created fail')
+
+            if(flag == false){
+                App.IziToast.showAleartError('District ID not found');
+                count++; 
+            }
+            flag = false;
+
+            $.each(wards, (i, item) => {
+                if(wardId == item.ward_id){
+                    flag = true;
+                }
             })
+
+            if(flag == false){
+                App.IziToast.showAleartError('Ward ID not found');
+                count++; 
+            }
+            flag = false;
+
+            console.log(count);
+
+            if(count == 0){
+                let address = $('#address').val();
+                let provinceName = $('#province :selected').text();
+                let districtName = $('#district :selected').text();
+                let wardName = $('#ward :selected').text(); 
+
+                let fullName = $('#fullName').val();
+                let email = $('#email').val();
+                let phone = $('#phone').val();
+
+                locationRegion.address = address;
+                locationRegion.provinceId = provinceId;
+                locationRegion.provinceName = provinceName;
+                locationRegion.districtId = districtId;
+                locationRegion.districtName = districtName;
+                locationRegion.wardId = wardId;
+                locationRegion.wardName = wardName;            
+
+                delete customer.id;
+                customer.fullName = fullName;
+                customer.email = email;
+                customer.phone = phone;
+                customer.locationRegion = locationRegion;
+                customer.balance = 0;
+
+                $.ajax({
+                    headers: {
+                        accepts: "application/json",
+                        "content-type": "application/json"
+                    },
+                    
+                    type: "POST",
+                    url: "http://localhost:3000/customers" ,
+                    data: JSON.stringify(customer)
+
+                })
+                .done((item) => {
+                    let str = `
+                        <tr id="tr_${item.id}" data-id="${item.id}">
+                            <td><span class="select-tab unselected"></span></td>
+                            <td class="text-center">${item.id}</td>
+                            <td>${item.fullName}</td>
+                            <td>${item.email}</td>
+                            <td class="text-center">${item.phone}</td>
+                            <td class="text-end num-space">${item.balance}</td>
+                            <td class="text-center">${item.locationRegion.provinceName}</td>
+                            <td class="text-center">${item.locationRegion.districtName}</td>
+                            <td class="text-center">${item.locationRegion.wardName}</td>
+                            <td class="text-center">${item.locationRegion.address}</td>
+                        </tr>
+                    `;
+                    $('#tbCustomer tbody').append(str);
+
+                    $('#mdCreate').modal('hide');
+
+                    App.SweetAleart.showAleartSuccess('Created successful')
+
+                    unbindAll();
+                    handleClickRow();
+                })
+                .fail((error) => {
+                    App.SweetAleart.showAleartError('Created fail')
+                })
+            }
         }
 
         function doDelete(customerId) {
@@ -838,12 +882,51 @@
         }
 
         function doUpdate() {
+            let count = 0;
+            let flag = false;
+            let provinceId = $('#provinceUp').val();
+            let districtId = $('#districtUp').val();
+            let wardId = $('#wardUp').val();
+            
+            $.each(provinces, (i, item) => {
+                if(provinceId == item.province_id){
+                    flag = true;
+                }
+            })
 
-                let provinceId = $('#provinceUp').val();
+            if(flag == false){
+                App.IziToast.showAleartError('Province ID not found');
+                count++; 
+            }
+            flag = false;
+
+            $.each(districts, (i, item) => {
+                if(districtId == item.district_id){
+                    flag = true;
+                }
+            })
+
+            if(flag == false){
+                App.IziToast.showAleartError('District ID not found');
+                count++; 
+            }
+            flag = false;
+
+            $.each(wards, (i, item) => {
+                if(wardId == item.ward_id){
+                    flag = true;
+                }
+            })
+
+            if(flag == false){
+                App.IziToast.showAleartError('Ward ID not found');
+                count++; 
+            }
+            flag = false;
+            
+            if(count == 0) {
                 let provinceName = $('#provinceUp :selected').text();
-                let districtId = $('#districtUp').val();
                 let districtName = $('#districtUp :selected').text();
-                let wardId = $('#wardUp').val();
                 let wardName = $('#wardUp :selected').text(); 
                 let address = $('#addressUp').val();
 
@@ -907,6 +990,7 @@
                     App.SweetAleart.showAleartError('Updated customer infomation failed')
 
                 })
+            }
         }
 
         function doDeposit() {

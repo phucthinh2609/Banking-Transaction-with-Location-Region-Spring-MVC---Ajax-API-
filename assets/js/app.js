@@ -33,6 +33,26 @@ class App {
             })
         }
     }
+
+    static IziToast = class {
+        static showAleartSuccess(title) {
+            iziToast.success({
+                title: 'SUCCESS',
+                position: 'topRight',
+                timeout: 2500,
+                message: title
+            })
+        }
+
+        static showAleartError(title){
+            iziToast.error({
+                title: 'ERROR',
+                position: 'topRight',
+                timeout: 2500,
+                message: title
+            })
+        }
+    }
 }
 
 class Customer {
